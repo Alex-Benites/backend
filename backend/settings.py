@@ -10,7 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+#https://landing-180e0-default-rtdb.firebaseio.com/
 from pathlib import Path
+
+# Importe los módulos firebase_admin y credentials
+import firebase_admin
+from firebase_admin import credentials
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
+    'rest_framework',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -127,3 +134,11 @@ STATICFILES_DIRS = [
 ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Coloque la ruta relativa al archivo con la clave privada
+FIREBASE_CRED = credentials.Certificate("keys/landing-key.json")
+
+# Inicialice la conexión con el Realtime Database con la clave privada y la URL de referencia
+firebase_admin.initialize_app(FIREBASE_CRED, {
+     'databaseURL': 'https://landing-180e0-default-rtdb.firebaseio.com/'
+})
